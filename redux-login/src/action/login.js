@@ -3,31 +3,23 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import UserService from "./userservice";
+import config from '../config';
 
 export default function Login(props) {
   const [email, setemail] = useState("");
   const [password, setpassword] = useState("");
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const loginHandle = () => {
-    console.log("email:", email, "password:", password);
-    let data = {
-      email: email,
-      password: password,
-    };
-    UserService.login(dispatch, data, props.history);
-  };
+  const navigate = useNavigate()
 
-  const userComponent = () => {
-   
-    if (localStorage.getItem("token") != null) {
-      navigate("/users");
-    }
-    else{
-        alert('USER NOT LOGGED IN')
-    }
-    console.log('USER DATA')
-  };
+
+  const loginHandle = () => {
+      console.log('email:', email, 'password:', password);
+      let data = {
+          email: email,
+          password: password
+      }
+      UserService.login(dispatch, config.login, data, navigate);
+  }
 
   return (
     <div>
@@ -54,8 +46,6 @@ export default function Login(props) {
         </button>
       </div>
       <p>"eve.holt@reqres.in"</p>
-
-      <button onClick={userComponent}>USER DATA</button>
     </div>
   );
 }
